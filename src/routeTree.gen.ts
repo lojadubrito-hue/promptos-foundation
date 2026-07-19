@@ -20,7 +20,6 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
-import { Route as IndexRouteImport } from './routes/index'
 
 const Veo3Route = Veo3RouteImport.update({
   id: '/veo3',
@@ -77,14 +76,8 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/characters': typeof CharactersRoute
   '/favorites': typeof FavoritesRoute
@@ -98,7 +91,6 @@ export interface FileRoutesByFullPath {
   '/veo3': typeof Veo3Route
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/characters': typeof CharactersRoute
   '/favorites': typeof FavoritesRoute
@@ -113,7 +105,6 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/characters': typeof CharactersRoute
   '/favorites': typeof FavoritesRoute
@@ -129,7 +120,6 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/analytics'
     | '/characters'
     | '/favorites'
@@ -143,7 +133,6 @@ export interface FileRouteTypes {
     | '/veo3'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/analytics'
     | '/characters'
     | '/favorites'
@@ -157,7 +146,6 @@ export interface FileRouteTypes {
     | '/veo3'
   id:
     | '__root__'
-    | '/'
     | '/analytics'
     | '/characters'
     | '/favorites'
@@ -172,7 +160,6 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CharactersRoute: typeof CharactersRoute
   FavoritesRoute: typeof FavoritesRoute
@@ -265,18 +252,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CharactersRoute: CharactersRoute,
   FavoritesRoute: FavoritesRoute,
