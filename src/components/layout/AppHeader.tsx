@@ -1,4 +1,4 @@
-import { Bell, Search } from "lucide-react";
+import { Bell, Plus, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,6 +25,10 @@ export function AppHeader() {
       </div>
 
       <div className="ml-auto flex items-center gap-2">
+        <Button size="sm" className="hidden gap-1.5 sm:inline-flex">
+          <Plus className="h-4 w-4" />
+          New Prompt
+        </Button>
         <Button
           variant="ghost"
           size="icon"

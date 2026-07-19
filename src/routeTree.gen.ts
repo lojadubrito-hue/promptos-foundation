@@ -17,6 +17,8 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as ImageStudioRouteImport } from './routes/image-studio'
 import { Route as HelpRouteImport } from './routes/help'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -60,6 +62,16 @@ const HelpRoute = HelpRouteImport.update({
   path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -74,6 +86,8 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
@@ -86,6 +100,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
@@ -99,6 +115,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
@@ -113,6 +131,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
     | '/image-studio'
     | '/library'
@@ -125,6 +145,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
     | '/image-studio'
     | '/library'
@@ -137,6 +159,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
     | '/image-studio'
     | '/library'
@@ -150,6 +174,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  CharactersRoute: typeof CharactersRoute
+  FavoritesRoute: typeof FavoritesRoute
   HelpRoute: typeof HelpRoute
   ImageStudioRoute: typeof ImageStudioRoute
   LibraryRoute: typeof LibraryRoute
@@ -218,6 +244,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/analytics': {
       id: '/analytics'
       path: '/analytics'
@@ -238,6 +278,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  CharactersRoute: CharactersRoute,
+  FavoritesRoute: FavoritesRoute,
   HelpRoute: HelpRoute,
   ImageStudioRoute: ImageStudioRoute,
   LibraryRoute: LibraryRoute,
