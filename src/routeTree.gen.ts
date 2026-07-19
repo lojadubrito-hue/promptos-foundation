@@ -14,6 +14,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LibraryRouteImport } from './routes/library'
+import { Route as ImageStudioRouteImport } from './routes/image-studio'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
@@ -43,6 +44,11 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImageStudioRoute = ImageStudioRouteImport.update({
+  id: '/image-studio',
+  path: '/image-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   HelpRoute: typeof HelpRoute
+  ImageStudioRoute: typeof ImageStudioRoute
   LibraryRoute: typeof LibraryRoute
   ProjectsRoute: typeof ProjectsRoute
   PromptsRoute: typeof PromptsRoute
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/image-studio': {
+      id: '/image-studio'
+      path: '/image-studio'
+      fullPath: '/image-studio'
+      preLoaderRoute: typeof ImageStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help': {
       id: '/help'
       path: '/help'
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   HelpRoute: HelpRoute,
+  ImageStudioRoute: ImageStudioRoute,
   LibraryRoute: LibraryRoute,
   ProjectsRoute: ProjectsRoute,
   PromptsRoute: PromptsRoute,
