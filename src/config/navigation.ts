@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   Users,
   Star,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 
@@ -35,22 +36,23 @@ export const primaryNavigation: NavSection[] = [
       { title: "Dashboard", url: "/", icon: LayoutDashboard },
       { title: "Prompt Generator", url: "/prompts", icon: Sparkles },
       { title: "Library", url: "/library", icon: Library },
+      { title: "Projects", url: "/projects", icon: FolderKanban },
     ],
   },
   {
     label: "Studios",
     items: [
-      { title: "Veo 3 Studio", url: "/veo3", icon: Film },
+      { title: "Veo Studio", url: "/veo3", icon: Film },
       { title: "Image Studio", url: "/image-studio", icon: ImageIcon },
-      { title: "TikTok Shop", url: "/tiktok-shop", icon: ShoppingBag },
+      { title: "TikTok Studio", url: "/tiktok-shop", icon: ShoppingBag },
+      { title: "Character Studio", url: "/characters", icon: Users },
     ],
   },
   {
-    label: "Organize",
+    label: "Insights",
     items: [
-      { title: "Characters", url: "/characters", icon: Users },
-      { title: "Projects", url: "/projects", icon: FolderKanban },
       { title: "Favorites", url: "/favorites", icon: Star },
+      { title: "Analytics", url: "/analytics", icon: BarChart3 },
     ],
   },
 ];

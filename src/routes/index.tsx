@@ -1,22 +1,39 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import {
   ArrowUpRight,
+  Bot,
+  Brain,
+  Check,
+  CircleDot,
+  Copy,
+  ExternalLink,
   FileJson,
+  Film,
   FolderKanban,
   FolderPlus,
+  Image as ImageIcon,
+  Library,
   Plus,
   RefreshCw,
+  Search,
+  ShoppingBag,
   Sparkles,
   Star,
-  TrendingUp,
+  UploadCloud,
   UserPlus,
-  Users,
   Wand2,
   type LucideIcon,
 } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
 import { PageHeader } from "@/components/common/PageHeader";
+import { SectionTitle } from "@/components/common/SectionTitle";
+import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { QuickAction } from "@/components/dashboard/QuickAction";
+import { RecentItem } from "@/components/dashboard/RecentItem";
+import { TemplateCard } from "@/components/dashboard/TemplateCard";
+import { TimelineItem } from "@/components/dashboard/TimelineItem";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,8 +42,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [{ title: "Dashboard — PromptOS" }] }),
@@ -36,58 +51,95 @@ export const Route = createFileRoute("/")({
 type Stat = {
   label: string;
   value: string;
-  delta: string;
+  description: string;
   icon: LucideIcon;
 };
 
 const stats: Stat[] = [
-  { label: "Total Prompts", value: "1,284", delta: "+12.4%", icon: Sparkles },
-  { label: "Templates", value: "86", delta: "+3", icon: FileJson },
-  { label: "Recent Projects", value: "24", delta: "+2 this week", icon: FolderKanban },
-  { label: "Favorite Prompts", value: "37", delta: "+5", icon: Star },
+  { label: "Prompts", value: "1.284", description: "+12,4% este mês", icon: Sparkles },
+  { label: "Projetos", value: "24", description: "+2 nesta semana", icon: FolderKanban },
+  { label: "Templates", value: "86", description: "+3 novos", icon: FileJson },
+  { label: "Favoritos", value: "37", description: "+5 recentes", icon: Star },
 ];
 
-type QuickAction = {
+type QuickActionItem = {
   label: string;
   description: string;
   icon: LucideIcon;
 };
 
-const quickActions: QuickAction[] = [
-  { label: "Generate Prompt", description: "Compose a new prompt with AI assist.", icon: Wand2 },
-  { label: "Convert Prompt", description: "Adapt a prompt between models.", icon: RefreshCw },
-  { label: "Create JSON", description: "Turn a prompt into structured JSON.", icon: FileJson },
-  { label: "New Character", description: "Define a reusable persona.", icon: UserPlus },
-  { label: "New Project", description: "Group prompts by product or client.", icon: FolderPlus },
+const quickActions: QuickActionItem[] = [
+  { label: "Novo Prompt", description: "Comece com um prompt em branco.", icon: Wand2 },
+  { label: "Novo Projeto", description: "Agrupe prompts por produto ou cliente.", icon: FolderPlus },
+  { label: "Abrir Veo Studio", description: "Crie cenas cinematográficas com Veo 3.", icon: Film },
+  { label: "Novo Personagem", description: "Defina uma persona reutilizável.", icon: UserPlus },
+  { label: "Converter Prompt", description: "Adapte um prompt entre modelos.", icon: RefreshCw },
 ];
+
+type ProjectStatus = "Ativo" | "Rascunho" | "Arquivado";
+
+type RecentProject = {
+  name: string;
+  category: string;
+  updatedAt: string;
+  status: ProjectStatus;
+};
+
+const recentProjects: RecentProject[] = [
+  { name: "Lançamento Q4 — TikTok Shop", category: "Marketing", updatedAt: "há 12 min", status: "Ativo" },
+  { name: "Playbook de Onboarding", category: "Interno", updatedAt: "há 2h", status: "Ativo" },
+  { name: "Campanha Veo 3 — Nova coleção", category: "Vídeo", updatedAt: "ontem", status: "Rascunho" },
+  { name: "Documentação de personagens", category: "Character", updatedAt: "há 3d", status: "Arquivado" },
+];
+
+const statusStyles: Record<ProjectStatus, string> = {
+  Ativo: "text-emerald-400",
+  Rascunho: "text-amber-400",
+  Arquivado: "text-muted-foreground",
+};
 
 type RecentPrompt = {
   title: string;
   model: string;
-  updatedAt: string;
-  tag: string;
+  category: string;
+  date: string;
 };
 
 const recentPrompts: RecentPrompt[] = [
-  { title: "Cinematic product reveal for TikTok", model: "Veo 3", updatedAt: "2m ago", tag: "Video" },
-  { title: "Landing page hero copy — SaaS", model: "GPT-4o", updatedAt: "1h ago", tag: "Copy" },
-  { title: "Character sheet — Aria the strategist", model: "Claude 3.5", updatedAt: "3h ago", tag: "Character" },
-  { title: "Product photo, studio lighting", model: "Imagen 3", updatedAt: "Yesterday", tag: "Image" },
-  { title: "Weekly newsletter outline", model: "GPT-4o", updatedAt: "2d ago", tag: "Copy" },
+  { title: "Revelação cinematográfica de produto", model: "Veo 3", category: "Vídeo", date: "há 2 min" },
+  { title: "Hero de landing page — SaaS", model: "GPT-4o", category: "Copy", date: "há 1h" },
+  { title: "Ficha de personagem — Aria", model: "Claude 3.5", category: "Character", date: "há 3h" },
+  { title: "Foto de produto em estúdio", model: "Imagen 3", category: "Imagem", date: "ontem" },
+  { title: "Roteiro de newsletter semanal", model: "GPT-4o", category: "Copy", date: "há 2d" },
 ];
 
 type Template = {
-  title: string;
+  name: string;
+  description: string;
   category: string;
-  uses: string;
   icon: LucideIcon;
 };
 
 const popularTemplates: Template[] = [
-  { title: "TikTok Shop — Product Ad", category: "Marketing", uses: "1.2k uses", icon: TrendingUp },
-  { title: "Veo 3 — Cinematic Scene", category: "Video", uses: "864 uses", icon: Sparkles },
-  { title: "Persona Builder", category: "Character", uses: "612 uses", icon: Users },
-  { title: "JSON Schema from Prompt", category: "Developer", uses: "489 uses", icon: FileJson },
+  { name: "TikTok Shop UGC", description: "Anúncios curtos e nativos para creators.", category: "Marketing", icon: ShoppingBag },
+  { name: "Veo 3 JSON", description: "Cenas cinematográficas em JSON estruturado.", category: "Vídeo", icon: Film },
+  { name: "ChatGPT Expert", description: "Persona sênior para respostas técnicas.", category: "Chat", icon: Bot },
+  { name: "Claude Long Context", description: "Análise profunda de documentos extensos.", category: "Análise", icon: Brain },
+  { name: "Gemini Research", description: "Pesquisa multi-fonte com citações.", category: "Pesquisa", icon: Search },
+  { name: "Flux Image", description: "Geração fotorrealista com Flux.", category: "Imagem", icon: ImageIcon },
+];
+
+type ActivityItem = {
+  title: string;
+  meta: string;
+  icon: LucideIcon;
+};
+
+const activity: ActivityItem[] = [
+  { title: "Prompt criado — “Hero de landing page”", meta: "GPT-4o · há 12 min", icon: Sparkles },
+  { title: "Projeto atualizado — “Lançamento Q4”", meta: "Marketing · há 1h", icon: FolderKanban },
+  { title: "Template favoritado — “Veo 3 JSON”", meta: "Vídeo · há 3h", icon: Star },
+  { title: "JSON exportado — “Ficha de Aria”", meta: "Character · ontem", icon: UploadCloud },
 ];
 
 function DashboardPage() {
@@ -95,115 +147,127 @@ function DashboardPage() {
     <AppLayout>
       <PageHeader
         title="Dashboard"
-        description="Your prompt workspace at a glance."
-        actions={
-          <Button size="sm" className="gap-1.5">
-            <Plus className="h-4 w-4" />
-            New Prompt
-          </Button>
-        }
+        description="Seu workspace de prompts em um só lugar."
       />
 
-      {/* Stats */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((s) => (
-          <Card
-            key={s.label}
-            className="group relative overflow-hidden border-border/60 bg-card/60 transition-all hover:border-border hover:bg-card"
+      {/* Hero */}
+      <section className="relative overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-card via-card/80 to-background p-6 sm:p-8">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-accent/10 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-32 -left-16 h-64 w-64 rounded-full bg-primary/5 blur-3xl"
+        />
+        <div className="relative max-w-2xl">
+          <Badge
+            variant="secondary"
+            className="mb-3 rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-medium text-accent"
           >
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-              <CardDescription className="text-xs font-medium text-muted-foreground">
-                {s.label}
-              </CardDescription>
-              <div className="grid h-8 w-8 place-items-center rounded-lg bg-muted/60 text-muted-foreground transition-colors group-hover:bg-accent/15 group-hover:text-accent">
-                <s.icon className="h-4 w-4" />
-              </div>
-            </CardHeader>
-            <CardContent className="pb-5">
-              <div className="text-2xl font-semibold tracking-tight text-foreground">
-                {s.value}
-              </div>
-              <p className="mt-1 text-xs text-muted-foreground/80">{s.delta}</p>
-            </CardContent>
-          </Card>
+            PromptOS · v0.2
+          </Badge>
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Bem-vindo ao PromptOS
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Seu ambiente completo para criar, organizar e reutilizar prompts
+            profissionais em todos os seus modelos e projetos.
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <Button size="sm" className="gap-1.5">
+              <Plus className="h-4 w-4" />
+              Criar Prompt
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="gap-1.5 border-border/60"
+            >
+              <Link to="/library">
+                <Library className="h-4 w-4" />
+                Explorar Biblioteca
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* KPIs */}
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
+          <DashboardCard
+            key={s.label}
+            label={s.label}
+            value={s.value}
+            description={s.description}
+            icon={s.icon}
+          />
         ))}
       </section>
 
-      {/* Quick actions */}
+      {/* Quick Actions */}
       <section className="mt-8">
-        <div className="mb-3 flex items-end justify-between">
-          <div>
-            <h2 className="text-sm font-semibold tracking-tight text-foreground">
-              Quick Actions
-            </h2>
-            <p className="text-xs text-muted-foreground">
-              Jump straight into your next creation.
-            </p>
-          </div>
-        </div>
+        <SectionTitle
+          title="Ações rápidas"
+          description="Comece sua próxima criação em um clique."
+        />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {quickActions.map((a) => (
-            <button
+            <QuickAction
               key={a.label}
-              type="button"
-              className={cn(
-                "group flex flex-col items-start gap-3 rounded-xl border border-border/60 bg-card/50 p-4 text-left",
-                "transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:bg-card hover:shadow-lg hover:shadow-accent/5",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-              )}
-            >
-              <div className="grid h-9 w-9 place-items-center rounded-lg bg-accent/10 text-accent transition-colors group-hover:bg-accent group-hover:text-accent-foreground">
-                <a.icon className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-sm font-medium text-foreground">{a.label}</div>
-                <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
-                  {a.description}
-                </p>
-              </div>
-            </button>
+              label={a.label}
+              description={a.description}
+              icon={a.icon}
+            />
           ))}
         </div>
       </section>
 
-      {/* Recent + Templates */}
-      <section className="mt-8 grid gap-6 lg:grid-cols-3">
-        <Card className="border-border/60 bg-card/60 lg:col-span-2">
+      {/* Recent projects + prompts */}
+      <section className="mt-8 grid gap-6 lg:grid-cols-2">
+        <Card className="border-border/60 bg-card/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
             <div>
-              <CardTitle className="text-sm font-semibold">Recent Prompts</CardTitle>
+              <CardTitle className="text-sm font-semibold">
+                Projetos recentes
+              </CardTitle>
               <CardDescription className="text-xs">
-                Your latest activity across all studios.
+                Últimos espaços em que você trabalhou.
               </CardDescription>
             </div>
-            <Button variant="ghost" size="sm" className="gap-1 text-xs">
-              View all <ArrowUpRight className="h-3.5 w-3.5" />
+            <Button asChild variant="ghost" size="sm" className="gap-1 text-xs">
+              <Link to="/projects">
+                Ver todos <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
             </Button>
           </CardHeader>
           <CardContent className="pt-0">
             <ul className="divide-y divide-border/50">
-              {recentPrompts.map((p) => (
-                <li
-                  key={p.title}
-                  className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <span className="truncate text-sm font-medium text-foreground">
-                        {p.title}
-                      </span>
-                      <Badge
-                        variant="secondary"
-                        className="shrink-0 rounded-md bg-muted/60 px-1.5 py-0 text-[10px] font-normal text-muted-foreground"
+              {recentProjects.map((p) => (
+                <li key={p.name}>
+                  <RecentItem
+                    title={p.name}
+                    meta={`${p.category} · ${p.updatedAt}`}
+                    badge={
+                      <span
+                        className={`inline-flex items-center gap-1 text-[11px] font-medium ${statusStyles[p.status]}`}
                       >
-                        {p.tag}
-                      </Badge>
-                    </div>
-                    <p className="mt-0.5 text-xs text-muted-foreground">
-                      {p.model} · {p.updatedAt}
-                    </p>
-                  </div>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground/60" />
+                        <CircleDot className="h-3 w-3" />
+                        {p.status}
+                      </span>
+                    }
+                    actions={
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 gap-1 text-xs"
+                      >
+                        Abrir <ExternalLink className="h-3 w-3" />
+                      </Button>
+                    }
+                  />
                 </li>
               ))}
             </ul>
@@ -213,31 +277,108 @@ function DashboardPage() {
         <Card className="border-border/60 bg-card/60">
           <CardHeader className="flex flex-row items-center justify-between space-y-0">
             <div>
-              <CardTitle className="text-sm font-semibold">Popular Templates</CardTitle>
+              <CardTitle className="text-sm font-semibold">
+                Prompts recentes
+              </CardTitle>
               <CardDescription className="text-xs">
-                Trending in your workspace.
+                Sua atividade mais recente em todos os studios.
               </CardDescription>
             </div>
+            <Button asChild variant="ghost" size="sm" className="gap-1 text-xs">
+              <Link to="/library">
+                Ver todos <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
           </CardHeader>
-          <CardContent className="space-y-2 pt-0">
+          <CardContent className="pt-0">
+            <ul className="divide-y divide-border/50">
+              {recentPrompts.map((p) => (
+                <li key={p.title}>
+                  <RecentItem
+                    title={p.title}
+                    meta={`${p.model} · ${p.category} · ${p.date}`}
+                    actions={
+                      <>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                          aria-label="Copiar prompt"
+                        >
+                          <Copy className="h-3.5 w-3.5" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 gap-1 text-xs"
+                        >
+                          Abrir <ExternalLink className="h-3 w-3" />
+                        </Button>
+                      </>
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Templates + activity */}
+      <section className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+          <SectionTitle
+            title="Templates populares"
+            description="Modelos usados por todo o workspace."
+            actions={
+              <Button asChild variant="ghost" size="sm" className="gap-1 text-xs">
+                <Link to="/library">
+                  Ver biblioteca <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            }
+          />
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {popularTemplates.map((t) => (
-              <div
-                key={t.title}
-                className="flex items-center gap-3 rounded-lg border border-transparent p-2 transition-colors hover:border-border/60 hover:bg-muted/40"
-              >
-                <div className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-muted/60 text-muted-foreground">
-                  <t.icon className="h-4 w-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-medium text-foreground">
-                    {t.title}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {t.category} · {t.uses}
-                  </p>
-                </div>
-              </div>
+              <TemplateCard
+                key={t.name}
+                name={t.name}
+                description={t.description}
+                category={t.category}
+                icon={t.icon}
+              />
             ))}
+          </div>
+        </div>
+
+        <Card className="border-border/60 bg-card/60">
+          <CardHeader className="space-y-0 pb-3">
+            <CardTitle className="text-sm font-semibold">
+              Atividade recente
+            </CardTitle>
+            <CardDescription className="text-xs">
+              O que aconteceu no seu workspace.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div>
+              {activity.map((a, i) => (
+                <TimelineItem
+                  key={a.title}
+                  title={a.title}
+                  meta={a.meta}
+                  icon={a.icon}
+                  isLast={i === activity.length - 1}
+                />
+              ))}
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-2 w-full justify-center gap-1 text-xs"
+            >
+              Ver histórico completo <Check className="h-3 w-3" />
+            </Button>
           </CardContent>
         </Card>
       </section>
