@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Veo3RouteImport } from './routes/veo3'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as ProjectsRouteImport } from './routes/projects'
@@ -17,6 +18,11 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
+const Veo3Route = Veo3RouteImport.update({
+  id: '/veo3',
+  path: '/veo3',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/veo3'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/veo3'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/veo3'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,10 +131,18 @@ export interface RootRouteChildren {
   ProjectsRoute: typeof ProjectsRoute
   PromptsRoute: typeof PromptsRoute
   SettingsRoute: typeof SettingsRoute
+  Veo3Route: typeof Veo3Route
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/veo3': {
+      id: '/veo3'
+      path: '/veo3'
+      fullPath: '/veo3'
+      preLoaderRoute: typeof Veo3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProjectsRoute: ProjectsRoute,
   PromptsRoute: PromptsRoute,
   SettingsRoute: SettingsRoute,
+  Veo3Route: Veo3Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
