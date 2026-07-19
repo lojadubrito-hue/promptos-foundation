@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PromptsRouteImport } from './routes/prompts'
+import { Route as PromptGeneratorRouteImport } from './routes/prompt-generator'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as HelpRouteImport } from './routes/help'
@@ -25,6 +26,11 @@ const SettingsRoute = SettingsRouteImport.update({
 const PromptsRoute = PromptsRouteImport.update({
   id: '/prompts',
   path: '/prompts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptGeneratorRoute = PromptGeneratorRouteImport.update({
+  id: '/prompt-generator',
+  path: '/prompt-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
+  '/prompt-generator': typeof PromptGeneratorRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
+  '/prompt-generator': typeof PromptGeneratorRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
+  '/prompt-generator': typeof PromptGeneratorRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/library'
     | '/projects'
+    | '/prompt-generator'
     | '/prompts'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/library'
     | '/projects'
+    | '/prompt-generator'
     | '/prompts'
     | '/settings'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/library'
     | '/projects'
+    | '/prompt-generator'
     | '/prompts'
     | '/settings'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   LibraryRoute: typeof LibraryRoute
   ProjectsRoute: typeof ProjectsRoute
+  PromptGeneratorRoute: typeof PromptGeneratorRoute
   PromptsRoute: typeof PromptsRoute
   SettingsRoute: typeof SettingsRoute
 }
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/prompts'
       fullPath: '/prompts'
       preLoaderRoute: typeof PromptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompt-generator': {
+      id: '/prompt-generator'
+      path: '/prompt-generator'
+      fullPath: '/prompt-generator'
+      preLoaderRoute: typeof PromptGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   LibraryRoute: LibraryRoute,
   ProjectsRoute: ProjectsRoute,
+  PromptGeneratorRoute: PromptGeneratorRoute,
   PromptsRoute: PromptsRoute,
   SettingsRoute: SettingsRoute,
 }
