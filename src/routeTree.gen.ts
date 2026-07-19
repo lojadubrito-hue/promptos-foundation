@@ -9,14 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Veo3RouteImport } from './routes/veo3'
+import { Route as TiktokShopRouteImport } from './routes/tiktok-shop'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as LibraryRouteImport } from './routes/library'
+import { Route as ImageStudioRouteImport } from './routes/image-studio'
 import { Route as HelpRouteImport } from './routes/help'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 
+const Veo3Route = Veo3RouteImport.update({
+  id: '/veo3',
+  path: '/veo3',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TiktokShopRoute = TiktokShopRouteImport.update({
+  id: '/tiktok-shop',
+  path: '/tiktok-shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
@@ -37,9 +52,24 @@ const LibraryRoute = LibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ImageStudioRoute = ImageStudioRouteImport.update({
+  id: '/image-studio',
+  path: '/image-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CharactersRoute = CharactersRouteImport.update({
+  id: '/characters',
+  path: '/characters',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -56,73 +86,122 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/tiktok-shop': typeof TiktokShopRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/tiktok-shop': typeof TiktokShopRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/characters': typeof CharactersRoute
+  '/favorites': typeof FavoritesRoute
   '/help': typeof HelpRoute
+  '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
   '/prompts': typeof PromptsRoute
   '/settings': typeof SettingsRoute
+  '/tiktok-shop': typeof TiktokShopRoute
+  '/veo3': typeof Veo3Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/tiktok-shop'
+    | '/veo3'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/tiktok-shop'
+    | '/veo3'
   id:
     | '__root__'
     | '/'
     | '/analytics'
+    | '/characters'
+    | '/favorites'
     | '/help'
+    | '/image-studio'
     | '/library'
     | '/projects'
     | '/prompts'
     | '/settings'
+    | '/tiktok-shop'
+    | '/veo3'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  CharactersRoute: typeof CharactersRoute
+  FavoritesRoute: typeof FavoritesRoute
   HelpRoute: typeof HelpRoute
+  ImageStudioRoute: typeof ImageStudioRoute
   LibraryRoute: typeof LibraryRoute
   ProjectsRoute: typeof ProjectsRoute
   PromptsRoute: typeof PromptsRoute
   SettingsRoute: typeof SettingsRoute
+  TiktokShopRoute: typeof TiktokShopRoute
+  Veo3Route: typeof Veo3Route
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/veo3': {
+      id: '/veo3'
+      path: '/veo3'
+      fullPath: '/veo3'
+      preLoaderRoute: typeof Veo3RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tiktok-shop': {
+      id: '/tiktok-shop'
+      path: '/tiktok-shop'
+      fullPath: '/tiktok-shop'
+      preLoaderRoute: typeof TiktokShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -151,11 +230,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/image-studio': {
+      id: '/image-studio'
+      path: '/image-studio'
+      fullPath: '/image-studio'
+      preLoaderRoute: typeof ImageStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help': {
       id: '/help'
       path: '/help'
       fullPath: '/help'
       preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/characters': {
+      id: '/characters'
+      path: '/characters'
+      fullPath: '/characters'
+      preLoaderRoute: typeof CharactersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -178,11 +278,16 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  CharactersRoute: CharactersRoute,
+  FavoritesRoute: FavoritesRoute,
   HelpRoute: HelpRoute,
+  ImageStudioRoute: ImageStudioRoute,
   LibraryRoute: LibraryRoute,
   ProjectsRoute: ProjectsRoute,
   PromptsRoute: PromptsRoute,
   SettingsRoute: SettingsRoute,
+  TiktokShopRoute: TiktokShopRoute,
+  Veo3Route: Veo3Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
