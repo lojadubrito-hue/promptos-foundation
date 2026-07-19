@@ -3,9 +3,12 @@ import {
   Sparkles,
   Library,
   FolderKanban,
-  BarChart3,
   Settings,
-  LifeBuoy,
+  Film,
+  Image as ImageIcon,
+  ShoppingBag,
+  Users,
+  Star,
   type LucideIcon,
 } from "lucide-react";
 
@@ -30,20 +33,30 @@ export const primaryNavigation: NavSection[] = [
     label: "Workspace",
     items: [
       { title: "Dashboard", url: "/", icon: LayoutDashboard },
-      { title: "Prompts", url: "/prompts", icon: Sparkles },
+      { title: "Prompt Generator", url: "/prompts", icon: Sparkles },
       { title: "Library", url: "/library", icon: Library },
-      { title: "Projects", url: "/projects", icon: FolderKanban },
     ],
   },
   {
-    label: "Insights",
-    items: [{ title: "Analytics", url: "/analytics", icon: BarChart3 }],
+    label: "Studios",
+    items: [
+      { title: "Veo 3 Studio", url: "/veo3", icon: Film },
+      { title: "Image Studio", url: "/image-studio", icon: ImageIcon },
+      { title: "TikTok Shop", url: "/tiktok-shop", icon: ShoppingBag },
+    ],
+  },
+  {
+    label: "Organize",
+    items: [
+      { title: "Characters", url: "/characters", icon: Users },
+      { title: "Projects", url: "/projects", icon: FolderKanban },
+      { title: "Favorites", url: "/favorites", icon: Star },
+    ],
   },
 ];
 
 export const secondaryNavigation: NavItem[] = [
   { title: "Settings", url: "/settings", icon: Settings },
-  { title: "Help & Support", url: "/help", icon: LifeBuoy },
 ];
 
 export const APP_NAME = "PromptOS";
