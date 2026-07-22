@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -29,6 +29,7 @@ export const Route = createFileRoute("/prompts")({
 });
 
 function PromptsPage() {
+  const navigate = useNavigate();
   const [prompts, setPrompts] = useState<Prompt[]>(() => promptsService.list());
   const [selectedId, setSelectedId] = useState<string | undefined>(
     () => promptsService.list()[0]?.id,
@@ -73,8 +74,7 @@ function PromptsPage() {
   const selected = prompts.find((p) => p.id === selectedId);
 
   const handleCreate = () => {
-    const p = promptsService.create();
-    refresh(p.id);
+    navigate({ to: "/prompts/new" });
   };
 
   const handlePatch = (patch: Partial<Prompt>) => {
