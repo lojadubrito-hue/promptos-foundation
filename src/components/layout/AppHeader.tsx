@@ -7,6 +7,7 @@ import {
   Settings,
   User,
 } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,9 +50,11 @@ export function AppHeader() {
           <FolderPlus className="h-4 w-4" />
           Novo Projeto
         </Button>
-        <Button size="sm" className="hidden gap-1.5 sm:inline-flex">
-          <Plus className="h-4 w-4" />
-          Novo Prompt
+        <Button asChild size="sm" className="hidden gap-1.5 sm:inline-flex">
+          <Link to="/prompts/new">
+            <Plus className="h-4 w-4" />
+            Novo Prompt
+          </Link>
         </Button>
         <Button
           variant="ghost"

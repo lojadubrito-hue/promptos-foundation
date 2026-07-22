@@ -21,6 +21,7 @@ import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PromptsNewRouteImport } from './routes/prompts.new'
 
 const Veo3Route = Veo3RouteImport.update({
   id: '/veo3',
@@ -82,6 +83,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PromptsNewRoute = PromptsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => PromptsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -92,10 +98,11 @@ export interface FileRoutesByFullPath {
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -106,10 +113,11 @@ export interface FileRoutesByTo {
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -121,10 +129,11 @@ export interface FileRoutesById {
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
   '/projects': typeof ProjectsRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +150,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/prompts/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/prompts/new'
   id:
     | '__root__'
     | '/'
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/prompts/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -180,7 +192,7 @@ export interface RootRouteChildren {
   ImageStudioRoute: typeof ImageStudioRoute
   LibraryRoute: typeof LibraryRoute
   ProjectsRoute: typeof ProjectsRoute
-  PromptsRoute: typeof PromptsRoute
+  PromptsRoute: typeof PromptsRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   TiktokShopRoute: typeof TiktokShopRoute
   Veo3Route: typeof Veo3Route
@@ -272,8 +284,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prompts/new': {
+      id: '/prompts/new'
+      path: '/new'
+      fullPath: '/prompts/new'
+      preLoaderRoute: typeof PromptsNewRouteImport
+      parentRoute: typeof PromptsRoute
+    }
   }
 }
+
+interface PromptsRouteChildren {
+  PromptsNewRoute: typeof PromptsNewRoute
+}
+
+const PromptsRouteChildren: PromptsRouteChildren = {
+  PromptsNewRoute: PromptsNewRoute,
+}
+
+const PromptsRouteWithChildren =
+  PromptsRoute._addFileChildren(PromptsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -284,7 +314,7 @@ const rootRouteChildren: RootRouteChildren = {
   ImageStudioRoute: ImageStudioRoute,
   LibraryRoute: LibraryRoute,
   ProjectsRoute: ProjectsRoute,
-  PromptsRoute: PromptsRoute,
+  PromptsRoute: PromptsRouteWithChildren,
   SettingsRoute: SettingsRoute,
   TiktokShopRoute: TiktokShopRoute,
   Veo3Route: Veo3Route,
@@ -292,13 +322,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
