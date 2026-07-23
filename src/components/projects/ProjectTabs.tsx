@@ -193,9 +193,7 @@ export function ProjectTabs({ project }: ProjectTabsProps) {
                   <Badge variant="secondary">{p.version}</Badge>
                   {p.frameworkId && (
                     <Badge variant="secondary">
-                      {findFramework(p.frameworkId)?.acronym ??
-                        findFramework(p.frameworkId)?.name ??
-                        p.frameworkId}
+                      {findFramework(p.frameworkId)?.name ?? p.frameworkId}
                     </Badge>
                   )}
                 </div>

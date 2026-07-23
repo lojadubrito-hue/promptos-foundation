@@ -11,21 +11,20 @@ import { ProjectTabs } from "@/components/projects/ProjectTabs";
 import { ProjectService, type Project } from "@/domain";
 
 export const Route = createFileRoute("/projects/$projectId")({
-  head: ({ loaderData }) => ({
-    meta: [
-      {
-        title: loaderData?.project
-          ? `${loaderData.project.name} — PromptOS`
-          : "Projeto — PromptOS",
-      },
-      {
-        name: "description",
-        content:
-          loaderData?.project?.description ||
-          "Detalhes do projeto no PromptOS.",
-      },
-    ],
-  }),
+  head: ({ loaderData }) => {
+    const project = (loaderData as { project?: Project } | undefined)?.project;
+    return {
+      meta: [
+        {
+          title: project ? `${project.name} — PromptOS` : "Projeto — PromptOS",
+        },
+        {
+          name: "description",
+          content: project?.description || "Detalhes do projeto no PromptOS.",
+        },
+      ],
+    };
+  },
   loader: ({ params }) => {
     const project = ProjectService.get(params.projectId);
     if (!project) throw notFound();
