@@ -22,6 +22,7 @@ import { Route as CharactersRouteImport } from './routes/characters'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PromptsNewRouteImport } from './routes/prompts.new'
+import { Route as ProjectsProjectIdRouteImport } from './routes/projects.$projectId'
 
 const Veo3Route = Veo3RouteImport.update({
   id: '/veo3',
@@ -88,6 +89,11 @@ const PromptsNewRoute = PromptsNewRouteImport.update({
   path: '/new',
   getParentRoute: () => PromptsRoute,
 } as any)
+const ProjectsProjectIdRoute = ProjectsProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => ProjectsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,11 +103,12 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRoutesByTo {
@@ -112,11 +119,12 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRoutesById {
@@ -128,11 +136,12 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/image-studio': typeof ImageStudioRoute
   '/library': typeof LibraryRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/prompts': typeof PromptsRouteWithChildren
   '/settings': typeof SettingsRoute
   '/tiktok-shop': typeof TiktokShopRoute
   '/veo3': typeof Veo3Route
+  '/projects/$projectId': typeof ProjectsProjectIdRoute
   '/prompts/new': typeof PromptsNewRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/projects/$projectId'
     | '/prompts/new'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/projects/$projectId'
     | '/prompts/new'
   id:
     | '__root__'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tiktok-shop'
     | '/veo3'
+    | '/projects/$projectId'
     | '/prompts/new'
   fileRoutesById: FileRoutesById
 }
@@ -191,7 +203,7 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   ImageStudioRoute: typeof ImageStudioRoute
   LibraryRoute: typeof LibraryRoute
-  ProjectsRoute: typeof ProjectsRoute
+  ProjectsRoute: typeof ProjectsRouteWithChildren
   PromptsRoute: typeof PromptsRouteWithChildren
   SettingsRoute: typeof SettingsRoute
   TiktokShopRoute: typeof TiktokShopRoute
@@ -291,8 +303,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromptsNewRouteImport
       parentRoute: typeof PromptsRoute
     }
+    '/projects/$projectId': {
+      id: '/projects/$projectId'
+      path: '/$projectId'
+      fullPath: '/projects/$projectId'
+      preLoaderRoute: typeof ProjectsProjectIdRouteImport
+      parentRoute: typeof ProjectsRoute
+    }
   }
 }
+
+interface ProjectsRouteChildren {
+  ProjectsProjectIdRoute: typeof ProjectsProjectIdRoute
+}
+
+const ProjectsRouteChildren: ProjectsRouteChildren = {
+  ProjectsProjectIdRoute: ProjectsProjectIdRoute,
+}
+
+const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
+  ProjectsRouteChildren,
+)
 
 interface PromptsRouteChildren {
   PromptsNewRoute: typeof PromptsNewRoute
@@ -313,7 +344,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   ImageStudioRoute: ImageStudioRoute,
   LibraryRoute: LibraryRoute,
-  ProjectsRoute: ProjectsRoute,
+  ProjectsRoute: ProjectsRouteWithChildren,
   PromptsRoute: PromptsRouteWithChildren,
   SettingsRoute: SettingsRoute,
   TiktokShopRoute: TiktokShopRoute,
