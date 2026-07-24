@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ArrowLeft, Copy, Save, Star, X } from "lucide-react";
 
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ContextCard } from "@/components/context";
 import { PromptTextArea } from "@/components/prompts/PromptTextArea";
 import { TagSelector } from "@/components/prompts/TagSelector";
 import { Button } from "@/components/ui/button";
@@ -22,6 +23,7 @@ import { cn } from "@/lib/utils";
 import {
   AIModelService,
   CategoryService,
+  ContextService,
   FrameworkService,
   ProjectService,
   PromptService,
@@ -103,6 +105,15 @@ function CreatePromptPage() {
   const categories = useMemo(() => CategoryService.list(), []);
   const models = useMemo(() => AIModelService.list(), []);
   const frameworks = useMemo(() => FrameworkService.list(), []);
+
+  const selectedProject = useMemo(
+    () => projects.find((p) => p.id === form.projectId) ?? null,
+    [projects, form.projectId],
+  );
+  const projectContext = useMemo(
+    () => (form.projectId ? ContextService.getByProject(form.projectId) : undefined),
+    [form.projectId],
+  );
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -246,6 +257,13 @@ function CreatePromptPage() {
                 options={projects.map((p) => ({ value: p.id, label: p.name }))}
               />
             </Field>
+
+            {projectContext && (
+              <ContextCard
+                context={projectContext}
+                projectName={selectedProject?.name}
+              />
+            )}
 
             <Field label="Categoria">
               <SelectBox
