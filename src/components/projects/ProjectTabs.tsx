@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { EmptyState } from "@/components/common/EmptyState";
+import { ProjectContextTab } from "@/components/context";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -89,6 +90,7 @@ export function ProjectTabs({ project }: ProjectTabsProps) {
             {assets.length}
           </Badge>
         </TabsTrigger>
+        <TabsTrigger value="context">Context</TabsTrigger>
         <TabsTrigger value="timeline">Timeline</TabsTrigger>
       </TabsList>
 
@@ -293,6 +295,10 @@ export function ProjectTabs({ project }: ProjectTabsProps) {
 
       <TabsContent value="timeline">
         <ProjectTimeline project={project} />
+      </TabsContent>
+
+      <TabsContent value="context">
+        <ProjectContextTab project={project} />
       </TabsContent>
     </Tabs>
   );
